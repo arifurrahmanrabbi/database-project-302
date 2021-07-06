@@ -1,0 +1,250 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href={% static 'myapp/css/property_view.css' %}>
+{% endblock stylesheet %}
+
+{% block script %}
+    <script src={% static 'myapp/js/property_view.js' %} defer></script>
+{% endblock script %}
+
+{% block title %}
+	<title>Property View</title>
+{% endblock title %}
+
+{% block bodyblock %}
+<nav>
+  <div class="navbar">
+    <a href="{% url 'myapp:index' %}" class="logo">PROPERTY</a>
+    <ul class="nav-items collapse">
+      	<li class="nav-item link"><a href="#">HOME</a></li>
+      	<li class="nav-item link"><a href="{% url 'myapp:property_view' %}">VIEW</a></li>
+      	<li class="nav-item link"><a href="#">SERVICES</a></li>
+      	<li class="nav-item link"><a href="#">CONTACT US</a></li>
+     	{% if user.is_authenticated %}
+		<li class="dropdown nav-item link">
+			<a href="javascript:void(0)" class="dropbtn">Hello, {{ user.first_name }} &#9661</a>
+			<div class="dropdown-content">
+				<a href="{% url 'myapp:dashboard'%}">Dashboard</a>
+				<a href="#">Profile</a>
+				<a href="{% url 'myapp:logout'%}">Logout</a>
+			</div>
+		</li>
+		{% else %}
+		<li class="nav-item button primary"><a href= "{% url 'myapp:login' %}">LOG IN</a></li>
+		<li class="nav-item button secondary"><a href="{% url 'myapp:signup' %}">SIGN UP</a></li>
+		{% endif %}
+    </ul>
+  </div>
+</nav>
+
+
+<div class="filter_form">
+  <form action="{% url 'myapp:property_view' %}" method="POST">
+    {% csrf_token %}
+    <div class="filter-grid">
+      <div class="filter-grid-item">
+        <div class="card">
+          <div class="filter-card-content">
+            <div class="filter-card-text">
+              <label class="form-data">Property Type:</label><br><br>
+              <input type="checkbox" id="appartment" value="appartment" name="property_type">
+              <label for="appartment"> Appartment</label><br>
+              <input type="checkbox" id="land" value="land" name="property_type">
+              <label for="land"> Land</label><br>
+              <input type="checkbox" id="building" value="building" name="property_type">
+              <label for="building"> Building</label><br>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-grid-item">
+        <div class="card">
+          <div class="filter-card-content">
+            <div class="filter-card-text">
+              <label class="form-data">Location:</label><br><br>
+
+              <input type="checkbox" id="dhaka" value="dhaka" name="location">
+              <label for="dhaka"> Dhaka</label><br>
+
+              <input type="checkbox" id="khulna" value="khulna" name="location">
+              <label for="khulna"> Khulna</label><br>
+
+              <input type="checkbox" id="rajshahi" value="rajshahi" name="location">
+              <label for="rajshahi"> Rajshahi</label><br>
+
+              <input type="checkbox" id="kustia" value="kustia" name="location">
+              <label for="kustia"> Kustia</label><br>
+
+              <input type="checkbox" id="jessore" value="jessore" name="location">
+              <label for="jessore"> Jessore</label><br>
+
+              <input type="checkbox" id="satkhira" value="satkhira" name="location">
+              <label for="satkhira"> Satkhira</label><br>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="filter-grid-item">
+        <div class="card">
+          <div class="filter-card-content">
+            <div class="filter-card-text">
+
+              <label class="form-data">Purpose:</label><br><br>
+
+              <input type="checkbox" id="rent" value="rent" name="purpose">
+              <label for="rent"> For Rent</label><br>
+
+              <input type="checkbox" id="sale" value="sale" name="purpose">
+              <label for="sale"> For Sale</label><br>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-grid-item">
+        <div class="card">
+          <div class="filter-card-content">
+            <div class="filter-card-text">
+
+              <label class="form-data" for="beds">Beds:</label>
+              <input class="box-size" type="number" id="beds" value="beds" name="beds" placeholder=" between 1-4">
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-grid-item">
+        <div class="card">
+          <div class="filter-card-content">
+            <div class="filter-card-text">
+
+
+              <label class="form-data" for="size">Size(sqft):</label>
+              <input type="number" id="size" value="size" name="size" placeholder="  less or equal to size">
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-grid-item">
+        <div class="card">
+          <div class="filter-card-content">
+            <div class="filter-card-text">
+              <label class="form-data" for="price">Price:</label>
+              <input class="form-data box-size" type="number" id="min-price" value="min-price"  name="min-price" placeholder="  min-price"> 
+              <span style='font-size:20px;'>&#8208;</span>
+              <input class="form-data box-size" type="number" id="max-price" name="max-price" placeholder="  max-price">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-grid-item">
+        <div class="card">
+          <div class="filter-card-content">
+            <div class="filter-card-text">
+              
+              <label class="form-data">Status:</label><br><br>
+
+              <input type="checkbox" id="occupied" value="occupied" name="status">
+              <label for="occupied"> Occupied</label><br>
+
+              <input type="checkbox" id="vacant" value="vacant" name="status">
+              <label for="vacant"> Vacant</label><br>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="filter-grid-item">
+        <div class="card">
+          <div class="filter-card-content">
+            <div class="filter-card-text">
+              
+              <label class="form-data">Sort By:</label><br><br>
+
+              <input type="checkbox" id="added_on" value="added_on" name="sort">
+              <label for="added_on"> Date</label><br>
+
+
+
+              <input type="checkbox" id="price" value="price" name="sort">
+              <label for="price"> Price</label><br>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      
+
+
+
+    </div>
+    <input class="form-data search-btn" type="submit" value="Search""> 
+  </form>
+</div>
+
+
+<div class="nav-after"></div>
+
+
+
+<section "section-home">
+<div class="grid">
+  {% for row in sql %}
+    <div class="grid-item">
+      <div class="card">
+        {% if row.1 == "appartment" %}
+            <img class="card-img" src="../../static/myapp/assets/img/app4.jpg"/>
+        {% elif row.1 == "land" %}
+            <img class="card-img" src="../../static/myapp/assets/img/portfolio-7.jpg"/>
+        {% else %}
+            <img class="card-img" src="../../static/myapp/assets/img/building.jpg"/>
+        {% endif %}
+        <div class="card-content">
+          <h1 class="card-header">{{ row.1|upper }}<span>({{row.8 | date:"SHORT_DATE_FORMAT"}})</span></h1>
+          <p class="card-text">
+            <p class="card-text">{{ row.2|capfirst }}</p>
+          <p>
+          {% if row.1 == "appartment" %}
+            <p class="card-text">
+              <span>Bedrooms:{{row.14}}</span>
+              <span>|</span>
+              <span>Bathrooms:{{row.15}}</span>
+              <span>|</span>
+              <span>Size:{{row.11}}sqft</span>
+              <span class="left">Price: BDT <b>{{ row.10}}</b></span>
+            </p>
+          {% elif row.1 == "land" %}
+            <p class="card-text">Size:{{row.11}}sqft
+                <span class="left">Price: BDT <b>{{ row.10}}</b></span>
+            </p>
+          {% else %}
+          <p class="card-text">
+            <span>Size:{{row.11}}</span>
+            <span>|</span>
+            <span>Total Floor:{{row.30}}</span>
+            <span class="left">Price: BDT <b>{{ row.10}}</b></span>
+          </p>
+          {% endif %}  
+          </p>
+          </p>
+          <button onclick="document.location='details/{{row.0}}'" class="card-btn">Visit<span>&rarr;</span></button>
+        </div>  
+      </div>
+    </div>
+  {% endfor %}
+</div>
+</section>
+
+{% endblock bodyblock %}
+

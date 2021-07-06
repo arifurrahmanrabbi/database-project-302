@@ -1,0 +1,61 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'myapp/css/index.css' %}" integrity="1234">
+{% endblock stylesheet %}
+
+{% block script %}
+<script src="{% static 'myapp/js/index.js' %}" integrity="1234" defer></script>
+{% endblock script %}
+
+{% block title %}
+<title>Property</title>
+{% endblock title %}
+
+{% block bodyblock %}
+<nav>
+	<div class="navbar">
+		<a href="{% url 'myapp:index' %}" class="logo">PROPERTY</a>
+		<ul class="nav-items">
+			<li class="nav-item link"><a href="#">HOME</a></li>
+			<li class="nav-item link"><a href="{% url 'myapp:property_view' %}">VIEW</a></li>
+			<li class="nav-item link"><a href="#">SERVICES</a></li>
+			<li class="nav-item link"><a href="#">CONTACT US</a></li>
+			{% if user.is_authenticated %}
+			<li class="dropdown nav-item link">
+				<a href="javascript:void(0)" class="dropbtn">Hello, {{ user.first_name }} &#9661</a>
+				<div class="dropdown-content">
+					<a href="{% url 'myapp:dashboard'%}">Dashboard</a>
+					<a href="#">Profile</a>
+					<a href="{% url 'myapp:logout'%}">Logout</a>
+				</div>
+			</li>
+			{% else %}
+			<li class="nav-item button primary"><a href="{% url 'myapp:login' %}">LOG IN</a></li>
+			<li class="nav-item button secondary"><a href="{% url 'myapp:signup' %}">SIGN UP</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</nav>
+<div class="nav-after"></div>
+<section class="section-home"></section>
+<section class="section-features"></section>
+<section class="section-contact-us"></section>
+<!-- <section class=view-table>
+		<table>
+			<tr>
+				{% for row in desc %}
+					<th>{{ row.0 }}</th>
+				{% endfor %}	
+			</tr>
+			{% for row in res %}
+				<tr>
+				{% for col in row %}
+					<td>{{ col }} &emsp;</td>
+				{% endfor %}
+				</tr>
+			{% endfor %}
+		</table>
+	</section> -->
+{% endblock bodyblock %}

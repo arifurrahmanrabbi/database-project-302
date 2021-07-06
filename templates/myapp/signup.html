@@ -1,0 +1,46 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'myapp/css/signup.css' %}" integrity="1234">
+{% endblock stylesheet %}
+
+{% block script %}
+    <script src="{% static 'myapp/js/signup.js' %}" integrity="1234" defer></script>
+{% endblock script %}
+
+{% block title %}
+	<title>Property - Sign Up</title>
+{% endblock title %}
+
+{% block bodyblock %}
+	<nav>
+		<div class="navbar">
+			<a href="{% url 'myapp:index' %}" class="logo">PROPERTY</a>
+			<ul class="nav-items collapse">
+				<li class="nav-item link"><a href="#">HOME</a></li>
+				<li class="nav-item link"><a href="{% url 'myapp:property_view' %}">VIEW</a></li>
+				<li class="nav-item link"><a href="#">SERVICES</a></li>
+				<li class="nav-item link"><a href="#">CONTACT US</a></li>
+				<li class="nav-item button primary"><a href="{% url 'myapp:login' %}">LOG IN</a></li>
+				<li class="nav-item button secondary"><a href="#">SIGN UP</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="nav-after"></div>
+	<div class="login-form">
+		<form action="{% url 'myapp:user_signup' %}" method="POST">
+			{% csrf_token %}
+			<label class="form-data" for="name">Name:</label>
+			<input class="form-data" type="text" id="name" name="name" required>
+			<label class="form-data" for="email">Email:</label>
+			<input class="form-data" type="email" id="email" name="email" required>
+			<label class="form-data" for="password">Password:</label>
+			<input class="form-data" type="password" id="password" name="password" required>
+			<label class="form-data" for="dob">Date of Birth:</label>
+			<input type="date" id="dob" name="dob" required>
+			<input class="form-data button login-btn" type="submit" value="Sign Up">
+			<p>Already have an account? <a href="{% url 'myapp:login' %}">Log In</a></p>
+		</form>
+	</div>
+{% endblock bodyblock %}

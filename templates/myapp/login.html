@@ -1,0 +1,45 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'myapp/css/login.css' %}" integrity="1234">
+{% endblock stylesheet %}
+
+{% block script %}
+    <script src="{% static 'myapp/js/index.js' %}" integrity="1234" defer></script>
+{% endblock script %}
+
+{% block title %}
+	<title>Property - Log In</title>
+{% endblock title %}
+
+{% block bodyblock %}
+	<nav>
+		<div class="navbar">
+			<a href="{% url 'myapp:index' %}" class="logo">PROPERTY</a>
+			<ul class="nav-items collapse">
+				<li class="nav-item link"><a href="#">HOME</a></li>
+				<li class="nav-item link"><a href="{% url 'myapp:property_view' %}">VIEW</a></li>
+				<li class="nav-item link"><a href="#">SERVICES</a></li>
+				<li class="nav-item link"><a href="#">CONTACT US</a></li>
+				<li class="nav-item button primary"><a href="#">LOG IN</a></li>
+				<li class="nav-item button secondary"><a href="{% url 'myapp:signup' %}">SIGN UP</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="nav-after"></div>
+	<div class="login-form">
+		<form action="{% url 'myapp:user_login' %}" method="POST">
+			{% csrf_token %}
+			{% if login_failed %}
+				<label class="form-data" for="info">Logging Failed!!!</label>
+			{% endif %}
+			<label class="form-data" for="email">Email:</label>
+			<input class="form-data" type="email" id="email" name="email" required>
+			<label class="form-data" for="password">Password:</label>
+			<input class="form-data" type="password" id="password" name="password" required>
+			<input class="form-data button login-btn" type="submit" value="Log In">
+			<p>Don't have an account? <a href="{% url 'myapp:signup' %}">Sign Up</a></p>
+		</form>
+	</div>
+{% endblock bodyblock %}

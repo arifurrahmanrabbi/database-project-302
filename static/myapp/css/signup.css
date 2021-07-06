@@ -1,0 +1,78 @@
+@import url(./index.css);
+
+body {
+	background-color: #0D1117;
+}
+
+.login-form {
+	font-size: 2rem;
+	font-family: "Montserrat", sans-serif;
+	color: rgb(226, 226, 226);
+	/* border: 5px solid red; */
+	height: auto;
+	width: 40rem;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.login-form form {
+	background-color: #161B22;
+	border-radius: 6px;
+	/* border: 5px solid black; */
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	/* margin-top: 10rem; */
+	padding-top: 5rem;
+	padding-bottom: 5rem;
+}
+
+.login-form form label, input, p {
+	/* display: block; */
+	width: 80%;
+	margin: auto;
+}
+
+.login-form form input {
+	height: 4rem;
+	font-size: 2rem;
+	margin-bottom: 3rem;
+	border-radius: 6px;
+}
+
+.login-form form label {
+	margin-bottom: 1rem;
+}
+
+.login-btn{
+	font-family: "Montserrat", sans-serif;;
+	font-weight: 500;
+	color: rgb(226, 226, 226);
+	border: 2px solid #999;
+	cursor: pointer;
+	transition: background-color 0.4s ease-out;
+	/* margin-bottom: 10rem; */
+	/* padding: 1rem; */
+}
+
+.login-btn {
+	background-color: #161B22;
+}
+
+.login-btn:hover {
+	background-color: #444;
+}
+
+.login-form form p {
+	font-size: 1.6rem;
+}
+
+.login-form form a {
+	color: #58A6FF;
+}
+
+.login-form form a:hover {
+	text-decoration: underline;
+}

@@ -1,0 +1,214 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'myapp/css/property_edit.css' %}" integrity="1234">
+{% endblock stylesheet %}
+
+{% block script %}
+<script src="{% static 'myapp/js/property_edit.js' %}" integrity="1234" defer></script>
+{% endblock script %}
+
+{% block title %}
+	<title>Property - Edit</title>
+{% endblock title %}
+
+{% block bodyblock %}
+<nav>
+	<div class="navbar">
+		<a href="{% url 'myapp:index' %}" class="logo">PROPERTY</a>
+		<ul class="nav-items">
+			<li class="nav-item link"><a href="#">HOME</a></li>
+			<li class="nav-item link"><a href="{% url 'myapp:property_view' %}">VIEW</a></li>
+			<li class="nav-item link"><a href="#">SERVICES</a></li>
+			<li class="nav-item link"><a href="#">CONTACT US</a></li>
+			{% if user.is_authenticated %}
+			<li class="dropdown nav-item link">
+				<a href="javascript:void(0)" class="dropbtn">Hello, {{ user.first_name }} &#9661</a>
+				<div class="dropdown-content">
+					<a href="{% url 'myapp:dashboard'%}">Dashboard</a>
+					<a href="#">Profile</a>
+					<a href="{% url 'myapp:logout'%}">Logout</a>
+				</div>
+			</li>
+			{% else %}
+			<li class="nav-item button primary"><a href="{% url 'myapp:login' %}">LOG IN</a></li>
+			<li class="nav-item button secondary"><a href="{% url 'myapp:signup' %}">SIGN UP</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</nav>
+
+<div class="nav-after"></div>
+
+
+<section "section-home">
+
+<div class="container">
+	<h2 class="product-title">Edit Your {{row.0.1|upper}}</h2>
+    <div class="content">
+        <form action="{% url 'myapp:property_edit' row.0.0 %}" method="POST">
+        {% csrf_token %}
+            <div class="property-details">
+            <div class="input-box">
+                <span class="details">STATUS</span>
+                <input type="text" name="status"  placeholder="Vacant or Occupied" value="{{row.0.3}}" required>
+            </div>
+            <div class="input-box">
+                <span class="details">PURPOSE</span>
+                <input type="text" name="purpose"  placeholder="Rent or Sale" value="{{row.0.4}}" required>
+            </div>
+            <div class="input-box">
+                <span class="details">SIZE</span>
+                <input type="text" name="size"  placeholder="Enter size(sqft)" value="{{ row.0.11 }}" required>
+            </div>
+            <div class="input-box">
+                <span class="details">PRICE</span>
+                <input type="text" name="price"  placeholder="Enter property price" value="{{row.0.10}}" required>
+            </div>
+            
+            <div class="input-box">
+                <span class="details"></span>
+            </div>
+            <div class="input-box2">
+                <span class="details">DESCRIPTION</span>
+                <input type="text" name="description"  placeholder="Property description" value="{{row.0.2|capfirst}}" required>
+            </div>
+            <div class="input-box">
+                <span class="details"></span>
+            </div>
+            <div class="input-box">
+                <span class="details"></span>
+            </div>
+
+            <div class="input-box">
+                <span class="details">ROAD NO</span>
+                <input type="text" name="road"  placeholder="Enter road no" value="{{row.0.5|capfirst}}" required>
+            </div>
+            <div class="input-box">
+                <span class="details">ZIP CODE</span>
+                <input type="text" name="zip"  placeholder="Enter zip code" value="{{row.0.6}}" required>
+            </div>
+            <div class="input-box">
+                <span class="details">CITY</span>
+                <input type="text" name="city"  placeholder="Enter city" value="{{row.0.7|capfirst}}" required>
+            </div>
+
+            <div class="input-box">
+                <span class="details"></span>
+            </div>
+            </div>
+        <div class="property-type select">
+            <input type="radio" name="type" id="dot-1" value="appartment">
+            <input type="radio" name="type" id="dot-2" value="building">
+            <input type="radio" name="type" id="dot-3" value="land">
+            <span class="type-title">PROPERTY TYPE</span>
+            <div class="category">
+                <label for="dot-1">
+                <span class="dot one"></span>
+                <span class="type">Appartment</span>
+            </label>
+            <label for="dot-2">
+                <span class="dot two"></span>
+                <span class="type">Building</span>
+            </label>
+            <label for="dot-3">
+                <span class="dot three"></span>
+                <span class="type">Land</span>
+                </label>
+            </div>
+        </div>
+		{% if row.0.1 == "appartment" %}
+        <div class="appartment">
+            <div class="property-details">
+                <div class="input-box">
+                    <span class="details">Floor No</span>
+                    <input type="number" name="floor"  placeholder="Enter Floor No" value="{{row.0.13}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details">No of Bedrooms</span>
+                    <input type="number" name="beds"  placeholder="Enter No Bedroom" value="{{row.0.14}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details">No of Bathrooms</span>
+                    <input type="number" name="bath"  placeholder="Enter No Bathroom" value="{{row.0.15}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details"></span>
+                </div>
+            </div>
+        </div>
+		{% elif row.0.1 == "building" %}
+        <div class="building">
+            <div class="property-details">   
+                <div class="input-box">
+                    <span class="details">Building No</span>
+                    <input type="text" name="building_no"  placeholder="Enter Building No" value="{{row.0.28}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details">Building Name</span>
+                    <input type="text" name="building_name"  placeholder="Enter Building Name" value="{{row.0.29}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details">Total Floor</span>
+                    <input type="number" name="building_floor"  placeholder="Total Floor No" value="{{row.0.30}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details">No of Units</span>
+                    <input type="number" name="units"  placeholder="Enter unit per floor" value="{{row.0.31}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details">Completion Date</span>
+                    <input type="date" name="completion_date"  placeholder="Enter completion date" value="{{row.0.32}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details"></span>
+                </div>
+            </div>
+        </div>
+		{% else %}
+        <div class="land">
+            <div class="property-details">
+                <div class="input-box">
+                    <span class="details">Land Reg No</span>
+                    <input type="text" name="reg"  placeholder="Enter reg No" value="{{row.0.18}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details">Land Type</span>
+                    <input type="text" name="ltype"  placeholder="Commercial/residential" value="{{row.0.19}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details">Soil Type</span>
+                    <input type="text" name="stype"  placeholder="Enter soil type" value="{{row.0.20}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details">Tax</span>
+                    <input type="number" name="tax"  placeholder="Enter tax amount" value="{{row.0.24}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details">Boundaries</span>
+                    <input type="text" name="boundaries"  placeholder="Enter Boudary wall(meter)" value="{{row.0.23}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details">Road Size</span>
+                    <input type="text" name="road_size"  placeholder="Road Size(meter)" value="{{row.0.22}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details">Purchase Date</span>
+                    <input type="date" name="purchase_date"  placeholder="Enter land purchase date" value="{{row.0.25}}" >
+                </div>
+                <div class="input-box">
+                    <span class="details">Certificates</span>
+                    <input type="text" name="certificates"  placeholder="Enter Certificate No" value="{{row.0.26}}" >
+                </div>
+            </div>
+        </div>
+		{% endif %}
+        <div class="button">
+            <input type="submit" value="Update">
+        </div>
+        </form>
+    </div>
+</div>
+</section>
+{% endblock bodyblock %}

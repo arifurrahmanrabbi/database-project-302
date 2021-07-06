@@ -1,0 +1,225 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href={% static 'myapp/css/property_details.css' %}>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+	integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+	crossorigin="anonymous" />
+{% endblock stylesheet %}
+
+{% block script %}
+<script src="{% static 'myapp/js/property_details.js' %}"></script>
+{% endblock script %}
+
+{% block title %}
+<title>Property View</title>
+{% endblock title %}
+
+{% block bodyblock %}
+<nav>
+	<div class="navbar">
+		<a href="{% url 'myapp:index' %}" class="logo">PROPERTY</a>
+		<ul class="nav-items collapse">
+			<li class="nav-item link"><a href="#">HOME</a></li>
+			<li class="nav-item link"><a href="{% url 'myapp:property_view' %}">VIEW</a></li>
+			<li class="nav-item link"><a href="#">SERVICES</a></li>
+			<li class="nav-item link"><a href="#">CONTACT US</a></li>
+			{% if user.is_authenticated %}
+			<li class="dropdown nav-item link">
+				<a href="javascript:void(0)" class="dropbtn">Hello, {{ user.first_name }} &#9661</a>
+				<div class="dropdown-content">
+					<a href="{% url 'myapp:dashboard'%}">Dashboard</a>
+					<a href="#">Profile</a>
+					<a href="{% url 'myapp:logout'%}">Logout</a>
+				</div>
+			</li>
+			{% else %}
+			<li class="nav-item button primary"><a href="{% url 'myapp:login' %}">LOG IN</a></li>
+			<li class="nav-item button secondary"><a href="{% url 'myapp:signup' %}">SIGN UP</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</nav>
+<div class="nav-after"></div>
+
+<section>
+
+	<div class="card-wrapper">
+		<div class="card">
+			{% for row in sql %}
+			{% if row.1 == "appartment" %}
+			<div class="product-imgs">
+				<div class="img-display">
+					<div class="img-showcase">
+						<img src="../../static/myapp/assets/img/app3.jpg" alt="property image">
+						<img src="../../static/myapp/assets/img/app1.jpg" alt="property image">
+						<img src="../../static/myapp/assets/img/app2.jpg" alt="property image">
+						<img src="../../static/myapp/assets/img/app4.jpg" alt="property image">
+					</div>
+				</div>
+				<div class="img-select">
+					<div class="img-item">
+						<a href="#" data-id="1">
+							<img src="../../static/myapp/assets/img/app4.jpg" alt="property image">
+						</a>
+					</div>
+					<div class="img-item">
+						<a href="#" data-id="2">
+							<img src="../../static/myapp/assets/img/app1.jpg" alt="property image">
+						</a>
+					</div>
+					<div class="img-item">
+						<a href="#" data-id="3">
+							<img src="../../static/myapp/assets/img/app2.jpg" alt="property image">
+						</a>
+					</div>
+					<div class="img-item">
+						<a href="#" data-id="4">
+							<img src="../../static/myapp/assets/img/app3.jpg" alt="property image">
+						</a>
+					</div>
+				</div>
+			</div>
+
+			{% elif row.1 == "land" %}
+
+			<div class="product-imgs">
+				<div class="img-display">
+					<div class="img-showcase">
+						<img src="../../static/myapp/assets/img/land3.jpg" alt="property image">
+						<img src="../../static/myapp/assets/img/land4.jpg" alt="property image">
+						<img src="../../static/myapp/assets/img/land2.jpg" alt="property image">
+						<img src="../../static/myapp/assets/img/portfolio-7.jpg" alt="property image">
+					</div>
+				</div>
+				<div class="img-select">
+					<div class="img-item">
+						<a href="#" data-id="1">
+							<img src="../../static/myapp/assets/img/land4.jpg" alt="property image">
+						</a>
+					</div>
+					<div class="img-item">
+						<a href="#" data-id="2">
+							<img src="../../static/myapp/assets/img/land3.jpg" alt="property image">
+						</a>
+					</div>
+					<div class="img-item">
+						<a href="#" data-id="3">
+							<img src="../../static/myapp/assets/img/land2.jpg" alt="property image">
+						</a>
+					</div>
+					<div class="img-item">
+						<a href="#" data-id="4">
+							<img src="../../static/myapp/assets/img/portfolio-7.jpg" alt="property image">
+						</a>
+					</div>
+				</div>
+			</div>
+
+			{% else %}
+
+			<div class="product-imgs">
+				<div class="img-display">
+					<div class="img-showcase">
+						<img src="../../static/myapp/assets/img/building-97.jpg" alt="property image">
+						<img src="../../static/myapp/assets/img/app2.jpg" alt="property image">
+						<img src="../../static/myapp/assets/img/app4.jpg" alt="property image">
+						<img src="../../static/myapp/assets/img/app1.jpg" alt="property image">
+					</div>
+				</div>
+				<div class="img-select">
+					<div class="img-item">
+						<a href="#" data-id="1">
+							<img src="../../static/myapp/assets/img/building-97.jpg" alt="property image">
+						</a>
+					</div>
+					<div class="img-item">
+						<a href="#" data-id="2">
+							<img src="../../static/myapp/assets/img/app2.jpg" alt="property image">
+						</a>
+					</div>
+					<div class="img-item">
+						<a href="#" data-id="3">
+							<img src="../../static/myapp/assets/img/app4.jpg" alt="property image">
+						</a>
+					</div>
+					<div class="img-item">
+						<a href="#" data-id="4">
+							<img src="../../static/myapp/assets/img/app2.jpg" alt="property image">
+						</a>
+					</div>
+				</div>
+			</div>
+
+			{% endif %}
+
+			<div class="product-content">
+
+				<h2 class="product-title">{{row.1|upper}}</h2>
+				<a href="#" class="product-link">Posted By: {{row.36}}</a>
+
+
+				<div class="product-price">
+					<p class="new-price">Price: <span>BDT {{row.10}}</span></p>
+				</div>
+
+				<div class="product-detail">
+					<h2>about this property: </h2>
+					<p>{{row.2|capfirst}}</p>
+					<ul>
+						<li>Location:<span> {{row.5|capfirst}},{{row.7|capfirst}}-{{row.6}}</span></li><br>
+						<li> Purpose: <span>{{row.4}}</span></li>
+						<li> Status: <span>{{row.3}}</span></li>
+						<li> Added On: <span>{{row.8 | date:"SHORT_DATE_FORMAT"}}</span></li>
+						<br>
+						{% if row.1 == "appartment" %}
+						<li> No of Bedrooms: <span>{{row.14}}</span></li>
+						<li> No of Bathrooms: <span>{{row.15}}</span></li>
+						<li> Size: <span>{{row.11}}sqft</span></li>
+						<li>Floor No: <span>{{row.13}}</span></li>
+						{% elif row.1 == "land" %}
+						<li> Size: <span>{{row.11}}sqft</span></li>
+						<li>Land Type: <span> {{row.19|capfirst}} Type</span></li>
+						<li>Land Reg No: <span> {{row.18}}</span></li>
+						<br>
+						<li> Soil Type: <span>{{row.20}}</span></li>
+						<li> Road Size: <span> {{row.22}}</span></li>
+						<li> Boundaries : <span> {{row.23}}</span></li>
+
+						<br>
+						<li> Purchase Date : <span>{{row.25|date:"SHORT_DATE_FORMAT"}}</span></li>
+						<li> Tax: <span> BDT {{row.24}}</span></li>
+						<li> Certificates : <span> {{row.26}}</span></li>
+
+						{% else %}
+
+						<li> Building No: <span>{{row.28}}</span></li>
+						<li> Building Name: <span> {{row.29|capfirst}}</span></li><br>
+						<li> Total No of floors : <span> {{row.30}}</span></li>
+						<li> Units per Floor : <span> {{row.31}}</span></li><br>
+						<li> Completion Date : <span> {{row.32|date:"SHORT_DATE_FORMAT"}}</span></li>
+						<br>
+
+
+						{% endif %}
+
+					</ul>
+				</div>
+
+				<div class="contact-info">
+					{% if permitted %}
+					<input type="text" value="{{ row.45 }}">
+					<button type="button" class="btn">CONTACT</button>
+					{% else %}
+					<h1>You don't have permission to view this contact. You can request to view contact information by
+						clicking <button type="button" class="btn">here</button></h1>
+					{% endif %}
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock bodyblock %}

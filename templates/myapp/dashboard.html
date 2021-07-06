@@ -1,0 +1,369 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'myapp/css/dashboard.css' %}" integrity="1234">
+{% endblock stylesheet %}
+
+{% block script %}
+<script src="{% static 'myapp/js/dashboard.js' %}" integrity="1234" defer></script>
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{% endblock script %}
+
+{% block title %}
+<title>Property - Dashboard</title>
+{% endblock title %}
+
+{% block bodyblock %}
+<nav>
+	<div class="navbar">
+		<a href="{% url 'myapp:index' %}" class="logo">PROPERTY</a>
+		<ul class="nav-items collapse">
+			<li class="nav-item link"><a href="#">HOME</a></li>
+			<li class="nav-item link"><a href="{% url 'myapp:property_view' %}">VIEW</a></li>
+			<li class="nav-item link"><a href="#">SERVICES</a></li>
+			<li class="nav-item link"><a href="#">CONTACT US</a></li>
+			{% if user.is_authenticated %}
+			<li class="dropdown nav-item link">
+				<a href="javascript:void(0)" class="dropbtn">Hello, {{ user.first_name }} &#9661</a>
+				<div class="dropdown-content">
+					<a href="{% url 'myapp:dashboard'%}">Dashboard</a>
+					<a href="#">Profile</a>
+					<a href="{% url 'myapp:logout'%}">Logout</a>
+				</div>
+			</li>
+			{% else %}
+			<li class="nav-item button primary"><a href="{% url 'myapp:login' %}">LOG IN</a></li>
+			<li class="nav-item button secondary"><a href="{% url 'myapp:signup' %}">SIGN UP</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</nav>
+<div class="nav-after"></div>
+<!-- <h1>Welcome to your dashboard!!!</h1> -->
+<section class="dashboard">
+	<div class="user-details col">
+		<img src="../../static/myapp/assets/img/183-1832036_danbo-hd_2.jpg" alt="">
+		<h1 class="user-name">{{ user.first_name|capfirst }} <span class="online">●</span></h1>
+		<ul class="action-menu">
+			{% if isProfile %}
+			<li class="action-btn" style="background-color:rgb(238, 238, 238);"><a href="{% url 'myapp:profile' %}">Profile</a></li>
+			{% else %}
+			<li class="action-btn"><a href="{% url 'myapp:profile' %}">Profile</a></li>
+			{% endif %}
+			{% if isNewPost %}
+			<li class="action-btn" style="background-color:rgb(238, 238, 238);"><a href="{% url 'myapp:new_post' %}">New Post</a></li>
+			{% else %}
+			<li class="action-btn"><a href="{% url 'myapp:new_post' %}">New Post</a></li>
+			{% endif %}
+			{% if isHistory %}
+			<li class="action-btn" style="background-color:rgb(238, 238, 238);"><a href="{% url 'myapp:history' %}">History</a></li>
+			{% else %}
+			<li class="action-btn"><a href="{% url 'myapp:history' %}">History</a></li>
+			{% endif %}
+		</ul>
+	</div>
+	<div class="user-actions col">
+		<div class="action-board">
+			{% if isProfile %}
+			<div class="profile">
+				<div class="content">
+					<form action="{% url 'myapp:profile' %}" method="POST">
+						{% csrf_token %}
+						<div class="property-details">
+							<div class="input-box">
+								<span class="details">Name</span>
+								<input type="text" name="name" placeholder="Name" value="{{ res.0.1 }}" required>
+							</div>
+							<div class="input-box">
+								<span class="details">Email</span>
+								<input type="email" name="email" placeholder="Email" value="{{ res.0.3 }}" required>
+							</div>
+							<div class="input-box">
+								<span class="details">Password</span>
+								<input type="password" name="password" placeholder="password" value="{{ res.0.2 }}"
+									required>
+							</div>
+
+							<div class="input-box">
+								<span class="details">Date of Birth</span>
+								<input type="date" name="dob" value="{{ res.0.7| date:"d-M-Y" }}" required>
+							</div>
+
+							<div class="input-box">
+								<span class="details"></span>
+							</div>
+							<div class="input-box2">
+								<span class="details">Phone Number</span>
+								<input type="text" name="phone" placeholder="Phone Number" value="{{ res.0.10 }}"
+									required>
+							</div>
+							<div class="input-box">
+								<span class="details"></span>
+							</div>
+							<div class="input-box">
+								<span class="details"></span>
+							</div>
+
+							<div class="input-box">
+								<span class="details">ROAD NO</span>
+								<input type="text" name="road" placeholder="Enter road no" value="{{ res.0.6 }}"
+									required>
+							</div>
+							<div class="input-box">
+								<span class="details">ZIP CODE</span>
+								<input type="text" name="zip" placeholder="Enter zip code" value="{{ res.0.5 }}"
+									required>
+							</div>
+							<div class="input-box">
+								<span class="details">CITY</span>
+								<input type="text" name="city" placeholder="Enter city" value="{{ res.0.4 }}" required>
+							</div>
+
+							<div class="input-box">
+								<span class="details"></span>
+							</div>
+						</div>
+						<div class="button">
+							<input type="submit" value="Update">
+						</div>
+					</form>
+				</div>
+			</div>
+			{% endif %}
+			{% if isNewPost%}
+			<div class="new-post">
+				<div class="content">
+					<form action="{% url 'myapp:property_post' %}" method="POST">
+						{% csrf_token %}
+						<div class="property-details">
+							<div class="input-box">
+								<span class="details">STATUS</span>
+								<input type="text" name="status" placeholder="Vacant or Occupied" required>
+							</div>
+							<div class="input-box">
+								<span class="details">PURPOSE</span>
+								<input type="text" name="purpose" placeholder="Rent or Sale" required>
+							</div>
+							<div class="input-box">
+								<span class="details">SIZE</span>
+								<input type="text" name="size" placeholder="Enter size(sqft)" required>
+							</div>
+
+							<div class="input-box">
+								<span class="details">PRICE</span>
+								<input type="text" name="price" placeholder="Enter property price" required>
+							</div>
+
+							<div class="input-box">
+								<span class="details"></span>
+							</div>
+							<div class="input-box2">
+								<span class="details">DESCRIPTION</span>
+								<input type="text" name="description" placeholder="Property description" required>
+							</div>
+							<div class="input-box">
+								<span class="details"></span>
+							</div>
+							<div class="input-box">
+								<span class="details"></span>
+							</div>
+
+							<div class="input-box">
+								<span class="details">ROAD NO</span>
+								<input type="text" name="road" placeholder="Enter road no" required>
+							</div>
+							<div class="input-box">
+								<span class="details">ZIP CODE</span>
+								<input type="text" name="zip" placeholder="Enter zip code" required>
+							</div>
+							<div class="input-box">
+								<span class="details">CITY</span>
+								<input type="text" name="city" placeholder="Enter city" required>
+							</div>
+
+							<div class="input-box">
+								<span class="details"></span>
+							</div>
+						</div>
+						<div class="property-type">
+							<input type="radio" name="type" id="dot-1" value="appartment">
+							<input type="radio" name="type" id="dot-2" value="building">
+							<input type="radio" name="type" id="dot-3" value="land">
+							<span class="type-title">PROPERTY TYPE</span>
+							<div class="category">
+								<label for="dot-1">
+									<span class="dot one"></span>
+									<span class="type">Appartment</span>
+								</label>
+								<label for="dot-2">
+									<span class="dot two"></span>
+									<span class="type">Building</span>
+								</label>
+								<label for="dot-3">
+									<span class="dot three"></span>
+									<span class="type">Land</span>
+								</label>
+							</div>
+						</div>
+
+						<div class="appartment select">
+							<div class="property-details">
+								<div class="input-box">
+									<span class="details">Floor No</span>
+									<input type="number" name="floor" placeholder="Enter Floor No">
+								</div>
+								<div class="input-box">
+									<span class="details">No of Bedrooms</span>
+									<input type="number" name="beds" placeholder="Enter No Bedroom">
+								</div>
+								<div class="input-box">
+									<span class="details">No of Bathrooms</span>
+									<input type="number" name="bath" placeholder="Enter No Bathroom">
+								</div>
+								<div class="input-box">
+									<span class="details"></span>
+								</div>
+							</div>
+						</div>
+						<div class="building select">
+							<div class="property-details">
+								<div class="input-box">
+									<span class="details">Building No</span>
+									<input type="text" name="building_no" placeholder="Enter Building No">
+								</div>
+								<div class="input-box">
+									<span class="details">Building Name</span>
+									<input type="text" name="building_name" placeholder="Enter Building Name">
+								</div>
+								<div class="input-box">
+									<span class="details">Total Floor</span>
+									<input type="number" name="building_floor" placeholder="Total Floor No">
+								</div>
+								<div class="input-box">
+									<span class="details">No of Units</span>
+									<input type="number" name="units" placeholder="Enter unit per floor">
+								</div>
+								<div class="input-box">
+									<span class="details">Completion Date</span>
+									<input type="date" name="completion_date" placeholder="Enter completion date">
+								</div>
+								<div class="input-box">
+									<span class="details"></span>
+								</div>
+							</div>
+						</div>
+						<div class="land select">
+							<div class="property-details">
+								<div class="input-box">
+									<span class="details">Land Reg No</span>
+									<input type="text" name="reg" placeholder="Enter reg No">
+								</div>
+								<div class="input-box">
+									<span class="details">Land Type</span>
+									<input type="text" name="ltype" placeholder="Commercial/residential">
+								</div>
+								<div class="input-box">
+									<span class="details">Soil Type</span>
+									<input type="text" name="stype" placeholder="Enter soil type">
+								</div>
+								<div class="input-box">
+									<span class="details">Tax</span>
+									<input type="number" name="tax" placeholder="Enter tax amount">
+								</div>
+								<div class="input-box">
+									<span class="details">Boundaries</span>
+									<input type="text" name="boundaries" placeholder="Enter Boudary wall(meter)">
+								</div>
+								<div class="input-box">
+									<span class="details">Road Size</span>
+									<input type="text" name="road_size" placeholder="Road Size(meter)">
+								</div>
+								<div class="input-box">
+									<span class="details">Purchase Date</span>
+									<input type="date" name="purchase_date" placeholder="Enter land purchase date">
+								</div>
+								<div class="input-box">
+									<span class="details">Certificates</span>
+									<input type="text" name="certificates" placeholder="Enter Certificate No">
+								</div>
+							</div>
+						</div>
+						<!-- <div class="property-details">
+							<div class="input-box">
+								<span class="details">Posting Date</span>
+								<input type="date" name="posting_date" placeholder="Enter posting date">
+							</div>
+							<div class="input-box">
+								<span class="details">Closing Date</span>
+								<input type="date" name="closing_date" placeholder="Enter closing date">
+							</div>
+						</div> -->
+
+						<div class="button">
+							<input type="submit" value="Post">
+						</div>
+					</form>
+				</div>
+			</div>
+			{% endif %}
+			{% if isHistory %}
+			<div class="history">
+				<div class="table_responsive">
+					<table>
+						<thead>
+							<tr>
+								<th>Sl</th>
+								<th>Type</th>
+								<th>ID</th>
+								<th>Purpose</th>
+								<th>Status</th>
+								<th>Posting Date</th>
+								<th>Closing Date</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							{% for row in sql %}
+							{% csrf_token %}
+							<tr>
+								<td></td>
+								<td>
+									{% if row.1 == "appartment" %}
+									<img class="card-img" src="../../static/myapp/assets/img/app2.jpg" />
+									{% elif row.1 == "land" %}
+									<img class="card-img" src="../../static/myapp/assets/img/portfolio-7.jpg" />
+									{% else %}
+									<img class="card-img" src="../../static/myapp/assets/img/building.jpg" />
+									{% endif %}
+								</td>
+								<td>{{row.0}}</td>
+								<td>{{row.4|capfirst}}</td>
+								<td>{{row.3|capfirst}}</td>
+								<td>{{row.8| date:"d-M-Y"}}</td>
+								<td>{{row.9| date:"d-M-Y"}}</td>
+								<td>
+									<span class="action_btn">
+										<a href="{% url 'myapp:property_edit' row.0 %}">Edit</a>
+										<a href="{% url 'myapp:property_delete' row.0 %}">Delete</a>
+									</span>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	<div class="user-notifications col">
+		<h1 class="notif-header">Notifications</h1>
+		<div class="notif-board">
+
+		</div>
+	</div>
+</section>
+{% endblock bodyblock %}

@@ -1,0 +1,84 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'myapp/css/history.css' %}"">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+{% endblock stylesheet %}
+
+{% block script %}
+    <!-- <script src={% static 'myapp/js/property_details.js' %} defer></script> -->
+{% endblock script %}
+
+{% block title %}
+	<title>Property View</title>
+{% endblock title %}
+    
+  {% block bodyblock %}
+    <nav>
+      <div class="navbar">
+        <a href="{% url 'myapp:index' %}" class="logo">PROPERTY</a>
+        <ul class="nav-items collapse">
+          <li class="nav-item link"><a href="#">HOME</a></li>
+          <li class="nav-item link"><a href="{% url 'myapp:property_view' %}">VIEW</a></li>
+          <li class="nav-item link"><a href="#">SERVICES</a></li>
+          <li class="nav-item link"><a href="#">CONTACT US</a></li>
+          <li class="nav-item button primary"><a href="{% url 'myapp:login' %}">LOG IN</a></li>
+          <li class="nav-item button secondary"><a href="{% url 'myapp:signup' %}">SIGN UP</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="nav-after"></div>
+
+<section action="{% url 'myapp:history' %}">
+    <h1>History</h1>
+    
+<div class="table_responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Sl</th>
+          <th>Type</th>
+          <th>ID</th>
+          <th>Purpose</th>
+          <th>Status</th>
+          <th>Posting Date</th>
+          <th>Closing Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+  
+      <tbody>
+    {% for row in sql %}
+    {% csrf_token %}
+        <tr>
+          <td></td>
+          <td>
+          {% if row.1 == "appartment" %}
+            <img class="card-img" src="../../static/myapp/assets/img/app2.jpg"/>
+          {% elif row.1 == "land" %}
+            <img class="card-img" src="../../static/myapp/assets/img/portfolio-7.jpg"/>
+          {% else %}
+            <img class="card-img" src="../../static/myapp/assets/img/building.jpg"/>
+          {% endif %}
+          </td>
+          <td>{{row.0}}</td>
+          <td>{{row.4|capfirst}}</td>
+          <td>{{row.3|capfirst}}</td>
+          <td>{{row.8| date:"SHORT_DATE_FORMAT"}}</td>
+          <td>{{row.9| date:"SHORT_DATE_FORMAT"}}</td>
+          <td>
+            <span class="action_btn">
+              <button onclick="document.location='edit/{{row.0}}'" class="card-btn">Edit</button>
+              <button onclick="document.location='delete/{{row.0}}'" class="card-btn">Remove</button>
+            </span>
+          </td>
+        </tr>
+    {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  </section>
+  
+{% endblock bodyblock %}
